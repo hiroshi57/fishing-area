@@ -1,0 +1,11 @@
+{
+  "days_back": 30,
+  "max_sources_per_lake": 15,
+  "search_delay_seconds": 1.5,
+  "log_level": "INFO",
+  "target_lakes": ["洞爺湖", "支笏湖"],
+  "valid_fish_types": [
+    "ワカサギ", "ヒメマス", "ニジマス",
+    "アメマス", "ブラウントラウト", "サクラマス", "その他"
+  ]
+}

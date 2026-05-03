@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# エディタ
+.vscode/
+*.swp
+
+# ログ
+*.log
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# 機密情報（絶対にコミットしない）
+.env
+
+# エージェント生成ファイル（任意でコミット）
+data/catches_db.json
+logs/*.log
+logs/*.md

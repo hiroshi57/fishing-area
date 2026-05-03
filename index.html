@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎣 釣果マップ - 洞爺湖・支笏湖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== サイドバー ===== -->
+  <aside id="sidebar">
+
+    <div class="sidebar-header">
+      <h1>🎣 釣果マップ</h1>
+      <p>洞爺湖 ・ 支笏湖</p>
+    </div>
+
+    <!-- 統計 -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-total">-</div>
+        <div class="stat-label">総釣果数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-records">-</div>
+        <div class="stat-label">釣行回数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-spots">-</div>
+        <div class="stat-label">釣り場数</div>
+      </div>
+    </div>
+
+    <!-- 湖移動ボタン -->
+    <div class="lake-buttons">
+      <button class="btn-lake" id="btn-toya">🗺 洞爺湖</button>
+      <button class="btn-lake" id="btn-shikotsu">🗺 支笏湖</button>
+    </div>
+
+    <!-- 年フィルター -->
+    <div class="filter-section">
+      <div class="filter-title">年で絞り込む</div>
+      <div class="filter-chips" id="year-filter-chips"></div>
+    </div>
+
+    <!-- 月フィルター -->
+    <div class="filter-section">
+      <div class="filter-title">月で絞り込む</div>
+      <div class="filter-chips" id="month-filter-chips"></div>
+      <button class="btn-reset-filter" id="btn-reset-filter">✕ フィルターをリセット</button>
+    </div>
+
+    <!-- 凡例 -->
+    <div class="legend-section">
+      <div class="legend-title">🎨 月カラー凡例</div>
+      <div id="month-legend"></div>
+      <div style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">
+        ※ 丸の色 = 月　縁の色 = 年
+      </div>
+    </div>
+
+    <!-- 釣果追加ボタン -->
+    <div class="add-section">
+      <!-- 駐車場表示トグル -->
+      <div class="parking-toggle-row">
+        <label class="parking-toggle-label">
+          <input type="checkbox" id="parking-toggle" checked>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+          <span>🅿 駐車場を表示</span>
+        </label>
+        <span class="parking-count">（全10か所）</span>
+      </div>
+      <button class="btn-add-catch" id="btn-add">＋ 釣果を記録する</button>
+    </div>
+
+  </aside>
+
+  <!-- ===== マップ ===== -->
+  <div id="map"></div>
+
+  <!-- ===== 情報パネル（マーカークリック時） ===== -->
+  <div id="info-panel"></div>
+
+  <!-- ===== 位置選択ヒント ===== -->
+  <div id="position-hint">📍 地図をクリックして釣れた場所を選んでください</div>
+
+  <!-- ===== 釣果追加モーダル ===== -->
+  <div id="add-modal">
+    <div class="modal-box">
+      <h2>🐟 釣果を記録する</h2>
+      <form id="add-form">
+
+        <!-- 湖・ポイント名 -->
+        <div class="form-group">
+          <label>湖</label>
+          <select id="f-lake" required>
+            <option value="洞爺湖">洞爺湖</option>
+            <option value="支笏湖">支笏湖</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>ポイント名（例：洞爺湖温泉前）</label>
+          <input type="text" id="f-spot" placeholder="釣り場の名前" required>
+        </div>
+
+        <!-- 座標 -->
+        <div class="coord-group">
+          <label>📍 釣れた場所（地図をクリックして選択）</label>
+          <button type="button" class="btn-select-pos" id="btn-select-pos">
+            🖱 地図上でポイントを選ぶ
+          </button>
+          <div id="coord-display"></div>
+          <input type="hidden" id="f-lat">
+          <input type="hidden" id="f-lng">
+        </div>
+
+        <!-- 魚種・匹数 -->
+        <div class="form-group">
+          <label>魚の種類</label>
+          <select id="f-fish" required>
+            <option value="ワカサギ">ワカサギ</option>
+            <option value="ヒメマス">ヒメマス</option>
+            <option value="ニジマス">ニジマス</option>
+            <option value="アメマス">アメマス</option>
+            <option value="ブラウントラウト">ブラウントラウト</option>
+            <option value="サクラマス">サクラマス</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>釣れた数（匹）</label>
+          <input type="number" id="f-count" min="1" max="9999" value="1" required>
+        </div>
+
+        <!-- 日付 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>年</label>
+            <input type="number" id="f-year" min="2000" max="2099" required>
+          </div>
+          <div class="form-group">
+            <label>月</label>
+            <input type="number" id="f-month" min="1" max="12" required>
+          </div>
+          <div class="form-group">
+            <label>日</label>
+            <input type="number" id="f-day" min="1" max="31" required>
+          </div>
+        </div>
+
+        <!-- メモ -->
+        <div class="form-group">
+          <label>メモ（任意）</label>
+          <textarea id="f-notes" rows="2" placeholder="ルアー、時間帯、天気など"></textarea>
+        </div>
+
+        <!-- ボタン -->
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="btn-cancel-add">キャンセル</button>
+          <button type="submit" class="btn-submit">記録する ✓</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== スクリプト ===== -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+  <!--
+    ★ Google Maps JavaScript API
+    YOUR_API_KEY を自分のAPIキーに置き換えてください。
+    YOUR_MAP_ID を自分のマップIDに置き換えてください。
+    取得方法は README.md を参照してください。
+  -->
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=marker&loading=async&callback=initMap">
+  </script>
+
+</body>
+</html>
