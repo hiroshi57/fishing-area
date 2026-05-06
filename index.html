@@ -32,6 +32,23 @@
       </div>
     </div>
 
+    <!-- 統計ダッシュボード -->
+    <div class="stats-dashboard">
+      <div class="dashboard-title">📊 釣果分析</div>
+      <div class="chart-section">
+        <div class="chart-title">湖別</div>
+        <div id="chart-lake"></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-title">月別</div>
+        <div id="chart-month"></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-title">魚種別</div>
+        <div id="chart-fish"></div>
+      </div>
+    </div>
+
     <!-- 湖移動ボタン -->
     <div class="lake-buttons">
       <button class="btn-lake" id="btn-toya">🗺 洞爺湖</button>
@@ -48,12 +65,20 @@
     <div class="filter-section">
       <div class="filter-title">月で絞り込む</div>
       <div class="filter-chips" id="month-filter-chips"></div>
+    </div>
+
+    <!-- 魚種フィルター -->
+    <div class="filter-section">
+      <div class="filter-title">魚種で絞り込む</div>
+      <div class="filter-chips" id="fish-filter-chips"></div>
       <button class="btn-reset-filter" id="btn-reset-filter">✕ フィルターをリセット</button>
     </div>
 
     <!-- 凡例 -->
     <div class="legend-section">
-      <div class="legend-title">🎨 月カラー凡例</div>
+      <div class="legend-title">🎣 魚種アイコン凡例</div>
+      <div id="fish-legend"></div>
+      <div class="legend-title" style="margin-top:10px;">🎨 月カラー凡例</div>
       <div id="month-legend"></div>
       <div style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">
         ※ 丸の色 = 月　縁の色 = 年
@@ -71,7 +96,7 @@
           </span>
           <span>🅿 駐車場を表示</span>
         </label>
-        <span class="parking-count">（全10か所）</span>
+        <span class="parking-count">（全20か所）</span>
       </div>
       <button class="btn-add-catch" id="btn-add">＋ 釣果を記録する</button>
     </div>
@@ -181,7 +206,7 @@
   -->
   <script
     async
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=marker&loading=async&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzpY0tJt1cTxFJ_TfBr0p9p6m4ypLNksg&libraries=marker&loading=async&callback=initMap">
   </script>
 
 </body>
