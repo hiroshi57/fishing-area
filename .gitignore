@@ -1,0 +1,10 @@
+# Never commit runtime logs or local DB
+logs/
+*.log
+*.db
+*.sqlite
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
